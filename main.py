@@ -11,7 +11,7 @@ from buttons.inline_keyboards import forced_channel
 from buttons.reply_keyboards import admin_btn, channels_btn, movies_btn, exit_btn
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
-
+load_dotenv()
 logging.basicConfig(level=logging.INFO)
 # ADMIN
 ADMINS = [2110736070]
