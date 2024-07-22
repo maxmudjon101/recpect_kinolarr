@@ -1,6 +1,4 @@
-import os
 import logging
-from dotenv import load_dotenv
 from db.connect import startup_table
 from aiogram import Bot, Dispatcher, types, executor
 from aiogram.dispatcher.filters import Text
@@ -10,8 +8,19 @@ from models.model import create_user, get_movie, statistika_user, statistika_mov
 from buttons.inline_keyboards import forced_channel
 from buttons.reply_keyboards import admin_btn, channels_btn, movies_btn, exit_btn
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
+from dotenv import load_dotenv
+import os
 
+# Load environment variables from .env file into os.environ
 load_dotenv()
+
+# Now you can access your environment variables
+DB_HOST = os.getenv('localhost')
+DB_USER = os.getenv('2110736070')
+DB_PASSWORD = os.getenv('nuriddin2323')
+# etc.
+
+
 logging.basicConfig(level=logging.INFO)
 # ADMIN
 ADMINS = [2110736070]
