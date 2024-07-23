@@ -9,6 +9,7 @@ from buttons.inline_keyboards import forced_channel
 from buttons.reply_keyboards import admin_btn, channels_btn, movies_btn, exit_btn
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from dotenv import load_dotenv
+from aiogram.types import InlineKeyboardButton
 import os
 
 # Load environment variables from .env file into os.environ
@@ -32,8 +33,10 @@ dp = Dispatcher(bot, storage=storage)
 
 
 
+
 @dp.message_handler(commands="start")
 async def welcome_handler(msg: types.Message):
+
     create_user(msg.from_user.id)
     await bot.set_my_commands(commands=[types.BotCommand("start", "Ishga tushirish ♻️")])
     await bot.send_message(msg.chat.id, text=f"Assalomu alaykum {msg.from_user.first_name} 🤖\n<b>Tarjimalar Tv Bot</b> - orqali siz o'zingizga yoqqan kinoni topishingiz mumkin 🎬\nShunchaki kino kodini yuboring va kinoni oling ✅", parse_mode=types.ParseMode.HTML)
@@ -61,8 +64,8 @@ async def media_statistika_handler(msg: types.Message):
         await msg.answer("Kinolar kategoriyasiga xush kelibsiz 🛠", reply_markup=movies_btn())
     else:
         await msg.answer("Siz admin emassiz ❌", reply_markup=types.ReplyKeyboardRemove())
-        
-        
+
+
 @dp.message_handler(Text("Kino Statistika 📊"))
 async def kino_statistika_handler(msg: types.Message):
     if msg.from_user.id == int(ADMINS[0]):
@@ -94,7 +97,7 @@ async def handle_video(msg: types.Message, state: FSMContext):
             await msg.answer(text="Iltimos Kino uchun ID kiriting: ", reply_markup=exit_btn())
     except:
         await msg.answer("Iltimos Kino yuboring!", reply_markup=exit_btn())
-    
+
 
 @dp.message_handler(state=AddMedia.media_id, content_types=types.ContentType.TEXT)
 async def handle_media_id(msg: types.Message, state: FSMContext):
@@ -265,7 +268,7 @@ async def forward_last_video(msg: types.Message):
             try:
                 await bot.send_video(chat_id=msg.from_user.id, video=data[0], caption=f"{data[1]}\n\n🤖 Bizning bot: @Tarjimalar_Tv_bot")
             except:
-                await msg.reply(f"{msg.text} - id bilan hech qanday kino topilmadi ❌") 
+                await msg.reply(f"{msg.text} - id bilan hech qanday kino topilmadi ❌")
         else:
             await msg.reply(f"{msg.text} - id bilan hech qanday kino topilmadi ❌")
     else:
