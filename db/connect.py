@@ -7,8 +7,8 @@ conn = psycopg2.connect(
     user='postgres',
     dbname='kinobot',
     password='nuriddin2323',
-    port=5432,
-    cursor_factory=DictCursor
+    port=5432
+
 )
 cur = conn.cursor()
 
