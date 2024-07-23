@@ -1,17 +1,17 @@
 import psycopg2
 from psycopg2.extras import DictCursor
+from aiogram import Bot, Dispatcher, executor
 
-
+# Database connection and cursor initialization
 conn = psycopg2.connect(
     user='postgres',
     dbname='kinobot',
     password='nuriddin2323',
     port=5432,
     cursor_factory=DictCursor
-
 )
-
 cur = conn.cursor()
+
 
 
 
