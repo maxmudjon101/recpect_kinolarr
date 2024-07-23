@@ -1,49 +1,19 @@
 import psycopg2
-
-
-
-# conn = psycopg2.connect(
-#     user='postgres',
-#     dbname='kinobot',
-#     password='nuriddin2323',
-#     port=5432,
-#     cursor_factory=DictCursor
-#
-# )
-#
-# cur = conn.cursor()
-
-import psycopg2
 from psycopg2.extras import DictCursor
-# try:
-#     conn = psycopg2.connect(
-#
-#     user='postgres',
-#     dbname='kinobot',
-#     password='nuriddin2323',
-#     port=5432,
-#     cursor_factory=DictCursor
-#
-#
-#
-#     )
-#     print("Connected to PostgreSQL!")
-#     # Further operations like executing queries or fetching data can go here
-# except psycopg2.OperationalError as e:
-#     print(f"Unable to connect to PostgreSQL: {e}")
-import psycopg2
-from psycopg2.extras import DictCursor
-# Establish a connection to your PostgreSQL database
+
+
 conn = psycopg2.connect(
-        user='postgres',
-        dbname='kinobot',
-        password='nuriddin2323',
-        port=5432,
-        cursor_factory=DictCursor
+    user='postgres',
+    dbname='kinobot',
+    password='nuriddin2323',
+    port=5432,
+    cursor_factory=DictCursor
+
 )
 
-# Create a cursor object to execute SQL queries
 cur = conn.cursor()
+
+
 
 def startup_table():
     query = '''
@@ -51,7 +21,7 @@ def startup_table():
         id BIGSERIAL PRIMARY KEY,
         telegram_id VARCHAR(60) UNIQUE,
         created_at TIMESTAMP DEFAULT now()
-    )
+        )
     '''
     channel_query = '''
     CREATE TABLE IF NOT EXISTS channels(
@@ -74,11 +44,3 @@ def startup_table():
     cur.execute(channel_query)
     cur.execute(media_query)
     conn.commit()
-
-# Call the function to create the tables
-startup_table()
-
-# Close cursor and connection when done
-cur.close()
-conn.close()
-
