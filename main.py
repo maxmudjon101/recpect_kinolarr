@@ -1,6 +1,8 @@
+import os
 import logging
-from db.connect import startup_table
-from aiogram import Bot, Dispatcher, types, executor
+from aiogram import Bot, Dispatcher, types
+
+from aiogram.utils import executor
 from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher import FSMContext
 from states.state_admin import AddMedia, ReklamaState, AddChannelState, DeleteChannelState, DeleteMovieState
@@ -8,35 +10,21 @@ from models.model import create_user, get_movie, statistika_user, statistika_mov
 from buttons.inline_keyboards import forced_channel
 from buttons.reply_keyboards import admin_btn, channels_btn, movies_btn, exit_btn
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
-from dotenv import load_dotenv
-from aiogram.types import InlineKeyboardButton
-import os
-
-# Load environment variables from .env file into os.environ
-load_dotenv()
-
-# Now you can access your environment variables
-DB_HOST = os.getenv('localhost')
-DB_USER = os.getenv('2110736070')
-DB_PASSWORD = os.getenv('nuriddin2323')
-# etc.
-
+from db.connect import startup_table
 
 logging.basicConfig(level=logging.INFO)
 # ADMIN
 ADMINS = [2110736070]
 # Bot token
-API_TOKEN="6593266052:AAGP4_Hge3QVFZzIu-rEKGuTQJUf1QF_SmE"
+API_TOKEN="6593266052:AAEG-guoFvlXQ7c2HA8MYuEsHdGt1efMPqc"
 bot=Bot(token=API_TOKEN)
 storage = MemoryStorage()
 dp = Dispatcher(bot, storage=storage)
 
 
 
-
 @dp.message_handler(commands="start")
 async def welcome_handler(msg: types.Message):
-
     create_user(msg.from_user.id)
     await bot.set_my_commands(commands=[types.BotCommand("start", "Ishga tushirish ♻️")])
     await bot.send_message(msg.chat.id, text=f"Assalomu alaykum {msg.from_user.first_name} 🤖\n<b>Tarjimalar Tv Bot</b> - orqali siz o'zingizga yoqqan kinoni topishingiz mumkin 🎬\nShunchaki kino kodini yuboring va kinoni oling ✅", parse_mode=types.ParseMode.HTML)
@@ -64,8 +52,8 @@ async def media_statistika_handler(msg: types.Message):
         await msg.answer("Kinolar kategoriyasiga xush kelibsiz 🛠", reply_markup=movies_btn())
     else:
         await msg.answer("Siz admin emassiz ❌", reply_markup=types.ReplyKeyboardRemove())
-
-
+        
+        
 @dp.message_handler(Text("Kino Statistika 📊"))
 async def kino_statistika_handler(msg: types.Message):
     if msg.from_user.id == int(ADMINS[0]):
@@ -97,7 +85,7 @@ async def handle_video(msg: types.Message, state: FSMContext):
             await msg.answer(text="Iltimos Kino uchun ID kiriting: ", reply_markup=exit_btn())
     except:
         await msg.answer("Iltimos Kino yuboring!", reply_markup=exit_btn())
-
+    
 
 @dp.message_handler(state=AddMedia.media_id, content_types=types.ContentType.TEXT)
 async def handle_media_id(msg: types.Message, state: FSMContext):
@@ -268,7 +256,7 @@ async def forward_last_video(msg: types.Message):
             try:
                 await bot.send_video(chat_id=msg.from_user.id, video=data[0], caption=f"{data[1]}\n\n🤖 Bizning bot: @Tarjimalar_Tv_bot")
             except:
-                await msg.reply(f"{msg.text} - id bilan hech qanday kino topilmadi ❌")
+                await msg.reply(f"{msg.text} - id bilan hech qanday kino topilmadi ❌") 
         else:
             await msg.reply(f"{msg.text} - id bilan hech qanday kino topilmadi ❌")
     else:
