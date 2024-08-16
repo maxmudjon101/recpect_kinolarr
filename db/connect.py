@@ -1,7 +1,6 @@
 import psycopg2
 from psycopg2.extras import DictCursor
 
-
 conn = psycopg2.connect(
     user='postgres',
     dbname='kinolar',

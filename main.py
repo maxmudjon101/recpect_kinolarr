@@ -1,8 +1,8 @@
 import os
 import logging
-from aiogram import Bot, Dispatcher, types
-
-from aiogram.utils import executor
+from dotenv import load_dotenv
+from db.connect import startup_table
+from aiogram import Bot, Dispatcher, types, executor
 from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher import FSMContext
 from states.state_admin import AddMedia, ReklamaState, AddChannelState, DeleteChannelState, DeleteMovieState
@@ -10,7 +10,7 @@ from models.model import create_user, get_movie, statistika_user, statistika_mov
 from buttons.inline_keyboards import forced_channel
 from buttons.reply_keyboards import admin_btn, channels_btn, movies_btn, exit_btn
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
-from db.connect import startup_table
+
 
 logging.basicConfig(level=logging.INFO)
 # ADMIN
@@ -20,8 +20,6 @@ API_TOKEN="6593266052:AAEG-guoFvlXQ7c2HA8MYuEsHdGt1efMPqc"
 bot=Bot(token=API_TOKEN)
 storage = MemoryStorage()
 dp = Dispatcher(bot, storage=storage)
-
-
 
 @dp.message_handler(commands="start")
 async def welcome_handler(msg: types.Message):
@@ -220,7 +218,7 @@ async def rek_state(msg: types.Message, state: FSMContext):
         try:
             summa = 0
             for user in get_users():
-                if int(user['telegram_id']) != int(ADMINS[0]):
+                if int(user['telegram_id']) != int(ADMINS[1]):
                     try:
                         await msg.copy_to(int(user['telegram_id']), caption=msg.caption, caption_entities=msg.caption_entities, reply_markup=msg.reply_markup)
                     except Exception as e:
@@ -271,7 +269,7 @@ async def check_sub_channels(user_id):
             if chat_member['status'] == 'left':
                 return False
         except:
-            await bot.send_message(ADMINS[0], f"{channel[1]}\nBu kanal mavjud emas yoki Botning kanalga adminlik huquqi yo'q!")
+            await bot.send_message(ADMINS[0], f"{channel[0]}\nBu kanal mavjud emas yoki Botning kanalga adminlik huquqi yo'q!")
     return True
 
 

@@ -48,9 +48,10 @@ def create_movie(post_id: int, file_id: str, caption: str) -> int:
 def get_movie(post_id: int):
     data = movie.get_data(post_id)
     if data:
-        return [data['file_id'], data['caption']]
+      return [data['file_id'], data['caption']],
     else:
         return False
+
 
 
 def statistika_movie():
